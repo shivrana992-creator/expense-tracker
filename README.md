@@ -7,11 +7,30 @@
 
 ## Setup
 
-Run the following commands from your terminal:
+Install Flutter 3.47 and the Android SDK. From the project root:
 
-1) `git clone https://github.com/floranguyen0/mmas-money-tracker` to clone this repository 
+```sh
+flutter pub get
+flutter devices
+flutter run -d <android-device-id>
+```
 
-2) `flutter pub get` in the project root directory to install all the required dependencies.
+Start an Android emulator or connect an Android phone before running the last
+command. If `flutter doctor` reports missing Android command-line tools, install
+them through Android Studio's SDK Manager. The app saves its data locally and
+opens directly to the tracker; there is no online account sign-in.
+
+If an Android build reports that an NDK directory has no `source.properties`,
+reinstall the reported NDK version from Android Studio's SDK Manager before
+retrying the build.
+
+To check the project:
+
+```sh
+flutter test
+flutter analyze lib test
+flutter build apk --debug
+```
 
 
 ## Download MMAS at:

@@ -1,10 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:money_assistant_2608/project/classes/constants.dart';
-import 'package:money_assistant_2608/project/database_management/sqflite_services.dart';
 import 'package:rate_my_app/rate_my_app.dart';
 import 'dart:io' show Platform;
 import 'app_pages/analysis.dart';
@@ -41,7 +37,6 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    DB.init();
     var rateMyApp = RateMyApp(
       minDays: 0,
       // Will pop up the first time users launch the app
@@ -52,15 +47,9 @@ class _HomeState extends State<Home> {
       appStoreIdentifier: '1582638369',
     );
 
-    WidgetsBinding.instance?.addPostFrameCallback((_) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
 
       await rateMyApp.init();
-      rateMyApp.conditions.forEach((condition) {
-        if (condition is DebuggableCondition) {
-          print(condition.valuesAsString);
-          // condition.reset();
-        }
-      });
       if (mounted && rateMyApp.shouldOpenDialog) {
         rateMyApp.showRateDialog(
           context,

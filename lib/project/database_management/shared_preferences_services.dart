@@ -1,28 +1,23 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boxicons/flutter_boxicons.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:icofont_flutter/icofont_flutter.dart';
 import 'package:intl/intl.dart';
 // ignore: import_of_legacy_library_into_null_safe
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:money_assistant_2608/project/classes/category_item.dart';
 import 'package:money_assistant_2608/project/classes/constants.dart';
 import 'package:money_assistant_2608/project/localization/methods.dart';
 // ignore: import_of_legacy_library_into_null_safe
-import 'package:outline_material_icons/outline_material_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final sharedPrefs = SharedPrefs();
 // constants/strings.dart
 // const String appCurrency = 'app_currency';
 late String currency;
-var incomeItems = sharedPrefs.getItems('income items');
+late List<CategoryItem> incomeItems;
 
 class SharedPrefs {
   static SharedPreferences? _sharedPrefs;
@@ -141,23 +136,23 @@ class SharedPrefs {
       ]);
 
       saveItems('income items', [
-        categoryItem(MdiIcons.accountCash, 'Salary'),
+        categoryItem(Icons.account_balance_wallet, 'Salary'),
         categoryItem(Icons.business_center_rounded, 'InvestmentIncome'),
         categoryItem(IcoFontIcons.moneyBag, 'Bonus'),
         categoryItem(IcoFontIcons.searchJob, 'Side job'),
         categoryItem(IcoFontIcons.gift, 'GiftsIncome'),
-        categoryItem(MdiIcons.cashPlus, 'OtherIncome'),
+        categoryItem(Icons.add_card, 'OtherIncome'),
       ]);
 
       saveItems('Food & Beverages', [
-        categoryItem(MdiIcons.food, 'Food & Beverages'),
-        categoryItem(MdiIcons.foodDrumstick, 'Food'),
+        categoryItem(Icons.restaurant, 'Food & Beverages'),
+        categoryItem(Icons.fastfood, 'Food'),
         categoryItem(Icons.local_bar, 'Beverages'),
         categoryItem(Icons.add_shopping_cart, 'Daily Necessities'),
       ]);
 
       saveItems('Transport', [
-        categoryItem(OMIcons.commute, 'Transport'),
+        categoryItem(Icons.commute, 'Transport'),
         categoryItem(Icons.local_gas_station, 'Fuel'),
         categoryItem(Icons.local_parking, 'Parking'),
         categoryItem(IcoFontIcons.toolsBag, 'Services & Maintenance'),
@@ -187,15 +182,15 @@ class SharedPrefs {
       ]);
 
       saveItems('Home', [
-        categoryItem(MdiIcons.homeHeart, 'Home'),
-        categoryItem(MdiIcons.dogService, 'Pets'),
-        categoryItem(MdiIcons.tableChair, 'Furnishings'),
-        categoryItem(MdiIcons.autoFix, 'Home Services'),
-        categoryItem(MdiIcons.homeCurrencyUsd, 'Mortgage & Rent'),
+        categoryItem(Icons.home, 'Home'),
+        categoryItem(Icons.pets, 'Pets'),
+        categoryItem(Icons.chair, 'Furnishings'),
+        categoryItem(Icons.home_repair_service, 'Home Services'),
+        categoryItem(Icons.home_work, 'Mortgage & Rent'),
       ]);
 
       saveItems('Utility Bills', [
-        categoryItem(FontAwesomeIcons.fileInvoiceDollar, 'Utility Bills'),
+        categoryItem(Icons.receipt_long, 'Utility Bills'),
         categoryItem(IcoFontIcons.lightBulb, 'Electricity'),
         categoryItem(IcoFontIcons.globe, 'Internet'),
         categoryItem(IcoFontIcons.stockMobile, 'Mobile Phone'),
@@ -203,11 +198,11 @@ class SharedPrefs {
       ]);
 
       saveItems('Health', [
-        categoryItem(FontAwesomeIcons.handHoldingMedical, 'Health'),
-        categoryItem(MdiIcons.soccer, 'Sports'),
-        categoryItem(MdiIcons.fileDocumentMultipleOutline, 'Health Insurance'),
-        categoryItem(MdiIcons.doctor, 'Doctor'),
-        categoryItem(MdiIcons.medicalBag, 'Medicine'),
+        categoryItem(Icons.medical_services, 'Health'),
+        categoryItem(Icons.sports_soccer, 'Sports'),
+        categoryItem(Icons.description, 'Health Insurance'),
+        categoryItem(Icons.medical_services, 'Doctor'),
+        categoryItem(Icons.medication, 'Medicine'),
       ]);
 
       saveItems('Gifts & Donations', [
@@ -220,13 +215,13 @@ class SharedPrefs {
 
       saveItems('Kids', [
         categoryItem(Icons.child_care, 'Kids'),
-        categoryItem(MdiIcons.cashCheck, 'Pocket Money'),
-        categoryItem(MdiIcons.babyBottle, 'Baby Products'),
-        categoryItem(MdiIcons.humanBabyChangingTable, 'Babysitter & Daycare'),
-        categoryItem(MdiIcons.bookCheck, 'Tuition'),
+        categoryItem(Icons.payments, 'Pocket Money'),
+        categoryItem(Icons.child_care, 'Baby Products'),
+        categoryItem(Icons.baby_changing_station, 'Babysitter & Daycare'),
+        categoryItem(Icons.menu_book, 'Tuition'),
       ]);
       saveItems('OtherExpense', [
-        categoryItem(MdiIcons.cashPlus, 'OtherExpense'),
+        categoryItem(Icons.add_card, 'OtherExpense'),
       ]);
       if (!setCategoriesToDefault) {
         _sharedPrefs!.setString('selectedDate', 'Today');

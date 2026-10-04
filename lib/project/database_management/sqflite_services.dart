@@ -13,18 +13,15 @@ abstract class DB {
     if (_db != null) {
       return;
     }
-    try {
-      var databasesPath = await getDatabasesPath();
-      String _path = p.join(databasesPath, 'money_crud.db');
-      _db = await openDatabase(_path, version: _version, onCreate: onCreate);
-    } catch (ex) {
-      print(ex);
-    }
+    var databasesPath = await getDatabasesPath();
+    String path = p.join(databasesPath, 'money_crud.db');
+    _db = await openDatabase(path, version: _version, onCreate: onCreate);
   }
 
   static onCreate(Database db, int version) {
     return db.execute(
-        'CREATE TABLE input (id INTEGER PRIMARY KEY AUTOINCREMENT, type TEXT, amount REAL, category TEXT, description TEXT, date TEXT, time TEXT)');
+      'CREATE TABLE input (id INTEGER PRIMARY KEY AUTOINCREMENT, type TEXT, amount REAL, category TEXT, description TEXT, date TEXT, time TEXT)',
+    );
   }
 
   //why in Git uses Future<int>?
@@ -37,21 +34,20 @@ abstract class DB {
   }
 
   static Future<int> insert(InputModel model) async => await _db!.insert(
-        'input',
-        model.toMap(),
-        conflictAlgorithm: ConflictAlgorithm.replace,
-      );
+    'input',
+    model.toMap(),
+    conflictAlgorithm: ConflictAlgorithm.replace,
+  );
 
   static Future<int> update(InputModel model) async => await _db!.update(
-        'input',
-        model.toMap(),
-        where: 'id = ?',
-        whereArgs: [model.id],
-      );
+    'input',
+    model.toMap(),
+    where: 'id = ?',
+    whereArgs: [model.id],
+  );
 
   static Future<int> delete(int id) async =>
       await _db!.delete('input', where: 'id = ?', whereArgs: [id]);
 
-  static Future<int> deleteAll () async =>
-      await _db!.delete('input');
+  static Future<int> deleteAll() async => await _db!.delete('input');
 }

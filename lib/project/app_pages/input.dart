@@ -1,10 +1,7 @@
 import 'dart:core';
 import 'dart:io' show Platform;
 import 'package:day_night_time_picker/day_night_time_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_material_pickers/flutter_material_pickers.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -21,7 +18,7 @@ import 'package:money_assistant_2608/project/database_management/shared_preferen
 import 'package:money_assistant_2608/project/database_management/sqflite_services.dart';
 import 'package:money_assistant_2608/project/localization/methods.dart';
 import 'package:provider/provider.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:money_assistant_2608/project/classes/sliding_keyboard_panel.dart';
 
 import '../provider.dart';
 import 'expense_category.dart';
@@ -611,29 +608,25 @@ class _DateCardState extends State<DateCard> {
       child: Row(
         children: [
           GestureDetector(
-            onTap: () {
+            onTap: () async {
               if (_pc.isPanelOpen) {
                 _pc.close();
               }
-              showMaterialDatePicker(
-                headerColor: blue3,
-                headerTextColor: Colors.black,
-                backgroundColor: white,
-                buttonTextColor: Color.fromRGBO(80, 157, 253, 1),
-                cancelText: getTranslated(context, 'CANCEL'),
-                confirmText: getTranslated(context, 'OK') ?? 'OK',
-                maxLongSide: 450.w,
-                maxShortSide: 300.w,
-                title: getTranslated(context, 'Select a date'),
+              final value = await showDatePicker(
                 context: context,
                 firstDate: DateTime(1990, 1, 1),
                 lastDate: DateTime(2050, 12, 31),
-                selectedDate: DateFormat('dd/MM/yyyy').parse(model.date!),
-                onChanged: (value) => setState(() {
+                initialDate: DateFormat('dd/MM/yyyy').parse(model.date!),
+                cancelText: getTranslated(context, 'CANCEL'),
+                confirmText: getTranslated(context, 'OK') ?? 'OK',
+                helpText: getTranslated(context, 'Select a date'),
+              );
+              if (value != null && mounted) {
+                setState(() {
                   selectedDate = value;
                   model.date = DateFormat('dd/MM/yyyy').format(value);
-                }),
-              );
+                });
+              }
             },
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -673,7 +666,7 @@ class _DateCardState extends State<DateCard> {
                         horizontal: 50.w, vertical: 30.0.h),
                     elevation: 12,
                     context: context,
-                    value: selectedTime,
+                    value: Time.fromTimeOfDay(selectedTime, null),
                     is24HrFormat: true,
                     onChange: (value) => setState(() {
                           selectedTime = value;

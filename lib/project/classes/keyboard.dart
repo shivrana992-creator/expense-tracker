@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:money_assistant_2608/project/classes/constants.dart';
 import 'package:money_assistant_2608/project/localization/methods.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:money_assistant_2608/project/classes/sliding_keyboard_panel.dart';
 
 class CustomKeyboard extends StatelessWidget {
   CustomKeyboard(

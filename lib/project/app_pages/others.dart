@@ -1,14 +1,11 @@
 import 'dart:core';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:in_app_review/in_app_review.dart';
 import 'package:intl/intl.dart';
 import 'package:money_assistant_2608/project/app_pages/select_date_format.dart';
 import 'package:money_assistant_2608/project/app_pages/select_language.dart';
-import 'package:money_assistant_2608/project/auth_pages/user_account.dart';
 import 'package:money_assistant_2608/project/classes/alert_dialog.dart';
 import 'package:money_assistant_2608/project/classes/constants.dart';
 import 'package:money_assistant_2608/project/classes/custom_toast.dart';
@@ -41,7 +38,7 @@ class Other extends StatelessWidget {
                   CircleAvatar(
                     child: CircleAvatar(
                         child: Icon(
-                          FontAwesomeIcons.smileBeam,
+                          Icons.sentiment_satisfied_alt,
                           color: Colors.black,
                           size: 71.sp,
                         ),
@@ -85,16 +82,10 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     List<Widget> pageRoute = [
-      UserAccount(),
       SelectLanguage(),
       Currency(),
     ];
     List<Widget> settingsIcons = [
-      Icon(
-        Icons.account_circle,
-        size: 35,
-        color: Colors.lightBlue,
-      ),
       // Icon(
       //   Icons.settings,
       //   size: 32,
@@ -131,7 +122,6 @@ class _SettingsState extends State<Settings> {
       ),
     ];
     List<String> settingsList = [
-      getTranslated(context, 'My Account')!,
       // getTranslated(context, 'General Settings')!,
       // getTranslated(context, 'Feedback')!,
       getTranslated(context, 'Language') ?? 'Language',
@@ -163,14 +153,14 @@ class _SettingsState extends State<Settings> {
 
           return GestureDetector(
             onTap: () async {
-              if ((int == 0) || (int == 1) || (int == 2)) {
+              if ((int == 0) || (int == 1)) {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => pageRoute[int]));
-              } else if (int == 3) {
+              } else if (int == 2) {
                 Navigator.push(context,
                         MaterialPageRoute(builder: (context) => FormatDate()))
                     .then((value) => setState(() {}));
-              } else if (int == 4) {
+              } else if (int == 3) {
                 // Navigator.push(
                 //     context,
                 //     MaterialPageRoute(
@@ -191,7 +181,7 @@ class _SettingsState extends State<Settings> {
                         'This action cannot be undone. Are you sure you want to reset all categories?',
                         'reset',
                         onReset);
-              } else if (int == 5) {
+              } else if (int == 4) {
                 Future onDeletion() async {
                   await DB.deleteAll();
                   customToast(context, 'All data has been deleted');
@@ -212,9 +202,9 @@ class _SettingsState extends State<Settings> {
               // else if (int == 4) {
               //   onPasscodeSwitched();
               // }
-              else if (int == 6) {
-                Share.share(
-                    'https://apps.apple.com/us/app/mmas-money-tracker-bookkeeper/id1582638369');
+              else if (int == 5) {
+                SharePlus.instance.share(ShareParams(
+                    text: 'https://apps.apple.com/us/app/mmas-money-tracker-bookkeeper/id1582638369'));
               } else {
                 final InAppReview inAppReview = InAppReview.instance;
                 await inAppReview.openStoreListing(

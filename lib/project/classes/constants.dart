@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_boxicons/flutter_boxicons.dart';
+import 'package:icofont_flutter/icofont_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:money_assistant_2608/project/database_management/shared_preferences_services.dart';
 
@@ -58,7 +60,7 @@ List<Color> chartPieColors = [
   Color.fromRGBO(194, 94, 78, 1),
   Color.fromRGBO(192, 72, 42, 1),
   Color.fromRGBO(176, 29, 51, 1),
-//18
+  //18
   Color.fromRGBO(198, 180, 251, 1),
   Color.fromRGBO(155, 128, 217, 1),
   Color.fromRGBO(112, 130, 212, 1),
@@ -82,8 +84,99 @@ List<Color> chartPieColors = [
 String format(double number) =>
     NumberFormat("#,###,###,###,###,###.##", "en_US").format(number);
 
-IconData iconData(CategoryItem item) => IconData(item.iconCodePoint,
-    fontPackage: item.iconFontPackage, fontFamily: item.iconFontFamily);
+IconData iconData(CategoryItem item) {
+  // These fonts belonged to packages that the old app used for its defaults.
+  // Keep previously saved categories visible after those packages are removed.
+  if (item.iconFontPackage == 'material_design_icons_flutter' ||
+      item.iconFontPackage == 'font_awesome_flutter' ||
+      item.iconFontPackage == 'outline_material_icons') {
+    return switch (item.text) {
+      'Salary' => Icons.account_balance_wallet,
+      'OtherIncome' || 'OtherExpense' => Icons.add_card,
+      'Food & Beverages' => Icons.restaurant,
+      'Food' => Icons.fastfood,
+      'Transport' => Icons.commute,
+      'Home' => Icons.home,
+      'Pets' => Icons.pets,
+      'Furnishings' => Icons.chair,
+      'Home Services' => Icons.home_repair_service,
+      'Utility Bills' => Icons.receipt_long,
+      'Health' || 'Doctor' => Icons.medical_services,
+      'Sports' => Icons.sports_soccer,
+      'Health Insurance' => Icons.description,
+      'Medicine' => Icons.medication,
+      'Pocket Money' => Icons.payments,
+      'Baby Products' => Icons.child_care,
+      'Babysitter & Daycare' => Icons.baby_changing_station,
+      'Tuition' => Icons.menu_book,
+      _ => Icons.category,
+    };
+  }
+  for (final icon in _availableIcons) {
+    if (icon.codePoint == item.iconCodePoint &&
+        icon.fontPackage == item.iconFontPackage &&
+        icon.fontFamily == item.iconFontFamily) {
+      return icon;
+    }
+  }
+  return Icons.category;
+}
+
+// Every selectable icon is a constant so Flutter can safely tree shake fonts.
+const _availableIcons = <IconData>[
+  Boxicons.bxs_binoculars,
+  Boxicons.bxs_devices,
+  Boxicons.bxs_donate_heart,
+  Boxicons.bxs_t_shirt,
+  IcoFontIcons.bagAlt,
+  IcoFontIcons.businessman,
+  IcoFontIcons.education,
+  IcoFontIcons.gameController,
+  IcoFontIcons.gift,
+  IcoFontIcons.globe,
+  IcoFontIcons.lightBulb,
+  IcoFontIcons.love,
+  IcoFontIcons.moneyBag,
+  IcoFontIcons.searchJob,
+  IcoFontIcons.shoppingCart,
+  IcoFontIcons.stockMobile,
+  IcoFontIcons.toolsBag,
+  IcoFontIcons.usersSocial,
+  IcoFontIcons.waterDrop,
+  IcoFontIcons.worried,
+  Icons.account_balance_wallet,
+  Icons.add_card,
+  Icons.add_photo_alternate_outlined,
+  Icons.add_shopping_cart,
+  Icons.airplanemode_active,
+  Icons.baby_changing_station,
+  Icons.business,
+  Icons.business_center_rounded,
+  Icons.category,
+  Icons.category_outlined,
+  Icons.chair,
+  Icons.child_care,
+  Icons.commute,
+  Icons.description,
+  Icons.fastfood,
+  Icons.home,
+  Icons.home_repair_service,
+  Icons.home_work,
+  Icons.library_music,
+  Icons.local_bar,
+  Icons.local_gas_station,
+  Icons.local_parking,
+  Icons.local_taxi_outlined,
+  Icons.medical_services,
+  Icons.medication,
+  Icons.menu_book,
+  Icons.movie_filter,
+  Icons.payments,
+  Icons.pets,
+  Icons.receipt_long,
+  Icons.restaurant,
+  Icons.sports_soccer,
+];
 
 //should description be '' or null?
 CategoryItem categoryItem(IconData icon, String name) =>
@@ -91,16 +184,13 @@ CategoryItem categoryItem(IconData icon, String name) =>
 
 Widget? connectionUI(AsyncSnapshot<List<InputModel>> snapshot) {
   if (snapshot.connectionState == ConnectionState.none) {
-    return Center(
-      child: CircularProgressIndicator(),
-    );
+    return Center(child: CircularProgressIndicator());
   }
   if (snapshot.hasError) {
     print('${snapshot.error}');
-    return Center(
-      child: CircularProgressIndicator(),
-    );
+    return Center(child: CircularProgressIndicator());
   }
+  return null;
 }
 
 List<CategoryItem> createItemList({
@@ -110,9 +200,11 @@ List<CategoryItem> createItemList({
   forSelectIconPage,
 }) {
   List<CategoryItem> itemList = [], items = [], expenseItems = [];
-  sharedPrefs.getAllExpenseItemsLists().forEach((parentExpenseItem) =>
-      parentExpenseItem
-          .forEach((expenseItem) => expenseItems.add(expenseItem)));
+  sharedPrefs.getAllExpenseItemsLists().forEach(
+    (parentExpenseItem) => parentExpenseItem.forEach(
+      (expenseItem) => expenseItems.add(expenseItem),
+    ),
+  );
 
   if (forAnalysisPage) {
     items = isIncomeType ? incomeItems : expenseItems;
@@ -130,11 +222,12 @@ List<CategoryItem> createItemList({
         }
         if (i == items.length - 1) {
           CategoryItem itemElse = CategoryItem(
-              Icons.category_outlined.codePoint,
-              Icons.category_outlined.fontPackage,
-              Icons.category_outlined.fontFamily,
-              transaction.category!,
-              transaction.description);
+            Icons.category_outlined.codePoint,
+            Icons.category_outlined.fontPackage,
+            Icons.category_outlined.fontFamily,
+            transaction.category!,
+            transaction.description,
+          );
           itemList.add(itemElse);
         }
       }
@@ -160,25 +253,30 @@ final List<String> timeline = [
   'This month',
   'This quarter',
   'This year',
-  'All'
+  'All',
 ];
 
 InputModel inputModel(data) => InputModel(
-    id: data.id,
-    type: data.type,
-    amount: data.amount!,
-    category: data.category!,
-    description: data.description!,
-    date: data.date,
-    time: data.time);
+  id: data.id,
+  type: data.type,
+  amount: data.amount!,
+  category: data.category!,
+  description: data.description!,
+  date: data.date,
+  time: data.time,
+);
 
 List<InputModel> filterData(
-    BuildContext context, List<InputModel> data, String selectedDate) {
+  BuildContext context,
+  List<InputModel> data,
+  String selectedDate,
+) {
   // filter data based on user's selected day
   return (data
           .map((data) {
-            DateTime dateSelectedDT =
-                DateFormat('dd/MM/yyyy').parse(data.date!);
+            DateTime dateSelectedDT = DateFormat(
+              'dd/MM/yyyy',
+            ).parse(data.date!);
 
             if (selectedDate == 'Today') {
               if (dateSelectedDT.isAfter(todayDT.subtract(Duration(days: 1))) &&
@@ -186,29 +284,40 @@ List<InputModel> filterData(
                 return inputModel(data);
               }
             } else if (selectedDate == 'This week') {
-              if (dateSelectedDT
-                      .isAfter(startOfThisWeek.subtract(Duration(days: 1))) &&
-                  dateSelectedDT
-                      .isBefore(startOfThisWeek.add(Duration(days: 7)))) {
+              if (dateSelectedDT.isAfter(
+                    startOfThisWeek.subtract(Duration(days: 1)),
+                  ) &&
+                  dateSelectedDT.isBefore(
+                    startOfThisWeek.add(Duration(days: 7)),
+                  )) {
                 return inputModel(data);
               }
             } else if (selectedDate == 'This month') {
-              if (dateSelectedDT
-                      .isAfter(startOfThisMonth.subtract(Duration(days: 1))) &&
-                  dateSelectedDT
-                      .isBefore(DateTime(todayDT.year, todayDT.month + 1, 1))) {
+              if (dateSelectedDT.isAfter(
+                    startOfThisMonth.subtract(Duration(days: 1)),
+                  ) &&
+                  dateSelectedDT.isBefore(
+                    DateTime(todayDT.year, todayDT.month + 1, 1),
+                  )) {
                 return inputModel(data);
               }
             } else if (selectedDate == 'This quarter') {
               if (dateSelectedDT.isAfter(
-                      startOfThisQuarter.subtract(Duration(days: 1))) &&
-                  dateSelectedDT.isBefore(DateTime(startOfThisQuarter.year,
-                      startOfThisQuarter.month + 3, 1))) {
+                    startOfThisQuarter.subtract(Duration(days: 1)),
+                  ) &&
+                  dateSelectedDT.isBefore(
+                    DateTime(
+                      startOfThisQuarter.year,
+                      startOfThisQuarter.month + 3,
+                      1,
+                    ),
+                  )) {
                 return inputModel(data);
               }
             } else if (selectedDate == 'This year') {
-              if (dateSelectedDT
-                      .isAfter(startOfThisYear.subtract(Duration(days: 1))) &&
+              if (dateSelectedDT.isAfter(
+                    startOfThisYear.subtract(Duration(days: 1)),
+                  ) &&
                   dateSelectedDT.isBefore(DateTime(todayDT.year + 1, 1, 1))) {
                 return inputModel(data);
               }
