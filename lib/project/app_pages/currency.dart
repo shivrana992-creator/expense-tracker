@@ -52,18 +52,19 @@ class Currency extends StatelessWidget {
                               style: TextStyle(fontSize: 45.sp),
                             ),
                             SizedBox(width: 30.w),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(Language.languageList[int].currencyName,
-                                    style: TextStyle(fontSize: 20.sp)),
-                                SizedBox(height: 2.5.h),
-                                Text(Language.languageList[int].currencyCode,
-                                    style: TextStyle(fontSize: 15.sp))
-                              ],
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(Language.languageList[int].currencyName,
+                                      style: TextStyle(fontSize: 20.sp)),
+                                  SizedBox(height: 2.5.h),
+                                  Text(Language.languageList[int].currencyCode,
+                                      style: TextStyle(fontSize: 15.sp))
+                                ],
+                              ),
                             ),
-                            Spacer(),
                             context.watch<OnCurrencySelected>().appCurrency ==
                                     '${languageList[int].languageCode}_${languageList[int].countryCode}'
                                 ? Icon(Icons.check_circle,

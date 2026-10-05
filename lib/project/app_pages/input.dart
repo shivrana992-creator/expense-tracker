@@ -11,6 +11,7 @@ import 'package:money_assistant_2608/project/classes/app_bar.dart';
 import 'package:money_assistant_2608/project/classes/category_item.dart';
 import 'package:money_assistant_2608/project/classes/constants.dart';
 import 'package:money_assistant_2608/project/classes/custom_toast.dart';
+import 'package:money_assistant_2608/project/classes/currency_icon.dart';
 import 'package:money_assistant_2608/project/classes/input_model.dart';
 import 'package:money_assistant_2608/project/classes/keyboard.dart';
 import 'package:money_assistant_2608/project/classes/saveOrSaveAndDeleteButtons.dart';
@@ -341,8 +342,7 @@ class _AmountCardState extends State<AmountCard> {
                     fontWeight: FontWeight.bold),
                 icon: Padding(
                   padding: EdgeInsets.only(right: 5.w),
-                  child: Icon(
-                    Icons.monetization_on,
+                  child: CurrencyIcon(
                     size: 45.sp,
                     color: colorMain,
                   ),

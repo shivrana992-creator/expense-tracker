@@ -1,5 +1,5 @@
 name: money_assistant_2608
-description: A new Flutter project.
+description: KharchaMate - daily expense tracking and money management.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -57,6 +57,17 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_native_splash: ^2.4.8
+  flutter_launcher_icons: ^0.14.4
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: images/budget.png
+  adaptive_icon_background: "#ffffff"
+  adaptive_icon_foreground: images/budget.png
+  adaptive_icon_foreground_inset: 28
+  remove_alpha_ios: true
+  background_color_ios: "#ffffff"
 
 flutter_native_splash:
   color: "#ffffff"

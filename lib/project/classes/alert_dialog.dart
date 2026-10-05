@@ -64,12 +64,12 @@ Future<void> androidDialog(BuildContext context, String content, String action,
             actions: [
               TextButton(
                   onPressed: () {
-                    onAction();
                     Navigator.pop(context);
                   },
                   child: Text(getTranslated(context, 'Cancel') ?? 'Cancel')),
               TextButton(
                   onPressed: () {
+                    onAction();
                     Navigator.pop(context);
                   },
                   child: Text(getTranslated(context, action) ?? action))

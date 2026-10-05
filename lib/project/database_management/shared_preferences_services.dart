@@ -16,7 +16,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 final sharedPrefs = SharedPrefs();
 // constants/strings.dart
 // const String appCurrency = 'app_currency';
-late String currency;
+final currencySymbol = ValueNotifier<String>('');
+String get currency => currencySymbol.value;
 late List<CategoryItem> incomeItems;
 
 class SharedPrefs {
@@ -76,13 +77,8 @@ class SharedPrefs {
   }
 
   void getCurrency() {
-    if (_sharedPrefs!.containsKey('appCurrency')) {
-      var format = NumberFormat.simpleCurrency(locale: sharedPrefs.appCurrency);
-      currency = format.currencySymbol;
-    } else {
-      var format = NumberFormat.simpleCurrency(locale: Platform.localeName);
-      currency = format.currencySymbol;
-    }
+    final format = NumberFormat.simpleCurrency(locale: appCurrency);
+    currencySymbol.value = format.currencySymbol;
   }
 
   //jsonEncode turns a Map<String, dynamic> into a json string,
@@ -223,6 +219,8 @@ class SharedPrefs {
       saveItems('OtherExpense', [
         categoryItem(Icons.add_card, 'OtherExpense'),
       ]);
+      // Category editing and reports also use this in-memory income list.
+      incomeItems = getItems('income items');
       if (!setCategoriesToDefault) {
         _sharedPrefs!.setString('selectedDate', 'Today');
         _sharedPrefs!.setBool('isPasscodeOn', false);

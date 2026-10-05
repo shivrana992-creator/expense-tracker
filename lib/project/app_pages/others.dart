@@ -2,7 +2,6 @@ import 'dart:core';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:in_app_review/in_app_review.dart';
 import 'package:intl/intl.dart';
 import 'package:money_assistant_2608/project/app_pages/select_date_format.dart';
 import 'package:money_assistant_2608/project/app_pages/select_language.dart';
@@ -13,7 +12,6 @@ import 'package:money_assistant_2608/project/database_management/shared_preferen
 import 'package:money_assistant_2608/project/database_management/sqflite_services.dart';
 import 'package:money_assistant_2608/project/localization/methods.dart';
 import 'package:provider/provider.dart';
-import 'package:share_plus/share_plus.dart';
 import 'dart:io' show Platform;
 import '../provider.dart';
 import 'currency.dart';
@@ -110,16 +108,6 @@ class _SettingsState extends State<Settings> {
       Icon(Icons.refresh, size: 32.sp, color: Colors.lightBlue),
       Icon(Icons.delete_forever, size: 32.sp, color: red),
       // Icon(Icons.lock, size: 32.sp, color: Colors.blueGrey),
-      Icon(
-        Icons.share,
-        size: 28.sp,
-        color: Colors.lightBlue,
-      ),
-      Icon(
-        Icons.star,
-        size: 32.sp,
-        color: Colors.amber,
-      ),
     ];
     List<String> settingsList = [
       // getTranslated(context, 'General Settings')!,
@@ -132,8 +120,6 @@ class _SettingsState extends State<Settings> {
       getTranslated(context, 'Reset All Categories') ?? 'Reset All Categories',
       getTranslated(context, 'Delete All Data') ?? 'Delete All Data',
       // getTranslated(context, 'Enable Passcode') ?? 'Enable Passcode',
-      getTranslated(context, 'Share Friends') ?? 'Share Friends',
-      getTranslated(context, 'Rate App') ?? 'Rate App',
     ];
 
     return ListView.builder(
@@ -202,17 +188,6 @@ class _SettingsState extends State<Settings> {
               // else if (int == 4) {
               //   onPasscodeSwitched();
               // }
-              else if (int == 5) {
-                SharePlus.instance.share(ShareParams(
-                    text: 'https://apps.apple.com/us/app/mmas-money-tracker-bookkeeper/id1582638369'));
-              } else {
-                final InAppReview inAppReview = InAppReview.instance;
-                await inAppReview.openStoreListing(
-                  appStoreId: Platform.isIOS
-                      ? '1582638369'
-                      : 'com.mmas.money_assistant_2608',
-                );
-              }
             },
             child: Column(
               children: [

@@ -1,4 +1,4 @@
-# MMAS: Money Tracker
+# KharchaMate
 
 > An optimized application for daily expense tracking and finance management. <br />
 
@@ -33,7 +33,19 @@ flutter build apk --debug
 ```
 
 
-## Download MMAS at:
+## App icon
+
+The launcher icon source is `images/budget.png`. After replacing this image,
+regenerate the Android and iOS icons with:
+
+```sh
+flutter pub get
+dart run flutter_launcher_icons
+```
+
+Rebuild and install the app to see the updated launcher icon.
+
+## Original MMAS app:
 
 https://apps.apple.com/vn/app/mmas-money-tracker/id1582638369
 
